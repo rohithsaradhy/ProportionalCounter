@@ -1,1 +1,1 @@
-Simulation for a proportional counter adjusted to detect 17.5 KeV X-rays. 
+Modified Example B1 to simulate 15x15 cm2 bakelite RPC with different gap and gas mixture configuration. Contact me for further details.

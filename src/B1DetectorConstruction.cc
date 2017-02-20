@@ -91,12 +91,22 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   G4double pos_x = 0.0*cm;
   G4double pos_y = 0.0*cm;
   G4double pos_z = 0.0*cm;
-  G4VPhysicalVolume* World = new G4PVPlacement(0,G4ThreeVector(pos_x, pos_y,pos_z),worldLog,"Proportional Counter World",0,false,0);
+  G4VPhysicalVolume* World = new G4PVPlacement(0,G4ThreeVector(pos_x, pos_y,pos_z),worldLog,"PC_World",0,false,0);
+
+
+// Making target volume
+  G4Box* targetVol = new  G4Box("targetVol", 10*cm,10*cm,1*cm);
+  G4LogicalVolume* tagetLog = new G4LogicalVolume(targetVol, Air,"targetLog");
+  pos_x =  0.0*cm;
+  pos_y =  0.0*cm;
+  pos_z =  -6.0*cm;
+  G4VPhysicalVolume* targetPhy = new G4PVPlacement(0,G4ThreeVector(pos_x, pos_y,pos_z),tagetLog,"target",worldLog,false,0);
+
 
 
   G4double innerRadius = 0.*cm;
   G4double outerRadius = 1.*cm;
-  G4double hz = 10.*cm;
+  G4double hz = 5.*cm;
   G4double startAngle = 0.*deg;
   G4double spanningAngle = 360.*deg;
 

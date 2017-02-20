@@ -59,12 +59,12 @@ void B1EventAction::BeginOfEventAction(const G4Event*)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-ofstream out("/home/rsaradhy/Geant4_Workspace/Proportional_Counter/data/test/energy.txt");
+ofstream out("/home/devbot/Geant4_Workspace/PropCounter/data/test/energy.txt");
 
 void B1EventAction::EndOfEventAction(const G4Event*)
 {
   // accumulate statistics in run action
-  fRunAction->AddEdep(fEdep);
+  fRunAction->AddEdep(fEdep); // don't consider this function now
   out<<fEdep<<G4endl;
 }
 

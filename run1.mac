@@ -9,16 +9,16 @@
 # Initialize kernel
 /run/initialize
 #
-/control/verbose 2
-/run/verbose 2
+/control/verbose 0
+/run/verbose 0
 /event/verbose 0
-/tracking/verbose 1
+/tracking/verbose 0
 # 
 # gamma 17.5 keV
 /gun/particle gamma
 /gun/energy 17.5 keV
 #
-/run/beamOn 5000
+/run/beamOn 10
 # 
 # proton 210 MeV to the direction (0.,0.,1.)
 #
