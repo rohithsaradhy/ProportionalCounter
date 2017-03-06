@@ -96,7 +96,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 
   G4double innerRadius = 0.*cm;
   G4double outerRadius = 1.*cm;
-  G4double hz = 10.*cm;
+  G4double hz = 5.*cm;
   G4double startAngle = 0.*deg;
   G4double spanningAngle = 360.*deg;
 
