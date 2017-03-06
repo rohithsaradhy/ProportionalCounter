@@ -3,7 +3,7 @@
 #define temp_data_h
 
 
-extern int NumParticles;
+// extern int NumParticles;
 
 
 #endif

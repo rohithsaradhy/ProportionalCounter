@@ -34,9 +34,10 @@
 #include "G4Parameter.hh"
 #include "globals.hh"
 
-#include<iostream>
-using namespace std;
 
+// using namespace std;
+
+// extern int hello;
 
 class G4Run;
 

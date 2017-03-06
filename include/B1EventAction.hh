@@ -34,6 +34,7 @@
 #include "G4UserEventAction.hh"
 #include "globals.hh"
 
+
 class B1RunAction;
 
 /// Event action class

@@ -39,9 +39,15 @@
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
 #include "B1SteppingAction.hh"
-#include "temp_data.hh"
+#include <fstream>
+#include<iostream>
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+using namespace std;
 
+ofstream saver;
+ofstream outfile("test.txt", std::ios_base::app);
+ifstream getter;
+int NumParticles;
 
 
 B1RunAction::B1RunAction()
@@ -49,8 +55,10 @@ B1RunAction::B1RunAction()
   fEdep("Edep", 0.),
   fEdep2("Edep2", 0.)
 {
+  saver.open("NumParticles.txt");
+   saver<<0;
+   saver.close();
 
-  NumParticles = 0;
   // add new units for dose
   //
   const G4double milligray = 1.e-3*gray;
@@ -142,6 +150,9 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
      << "--------------------End of Local Run------------------------";
   }
 
+
+  getter.open("NumParticles.txt");
+  getter>>NumParticles;
   G4cout
      << G4endl
      << " The run consists of " << nofEvents << " "<< runCondition
@@ -153,6 +164,12 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
      << G4endl
      << G4endl
      <<"Number of particles transmitted \t"<<NumParticles<<G4endl;
+
+  outfile << nofEvents <<"\t"<<NumParticles <<endl; //saving the data to a file
+  outfile.close();
+  getter.close();
+
+
 
 
 

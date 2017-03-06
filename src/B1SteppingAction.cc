@@ -31,13 +31,20 @@
 #include "B1SteppingAction.hh"
 #include "B1EventAction.hh"
 #include "B1DetectorConstruction.hh"
-#include "temp_data.hh"
+// #include "temp_data.hh"
 #include "G4Step.hh"
 #include "G4Event.hh"
 #include "G4RunManager.hh"
 #include "G4LogicalVolume.hh"
 #include "B1RunAction.hh"
+#include<iostream>
+#include<fstream>
 
+
+using namespace std;
+
+ifstream getter1;
+ofstream saver1;
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -58,6 +65,7 @@ B1SteppingAction::~B1SteppingAction()
 
 void B1SteppingAction::UserSteppingAction(const G4Step* step)
 {
+  int NumParticles;
   if (!fScoringVolume) {
     const B1DetectorConstruction* detectorConstruction
       = static_cast<const B1DetectorConstruction*>
@@ -75,7 +83,16 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
   if(step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName() == "target" && step->GetPostStepPoint()->GetTouchableHandle()->GetVolume()->GetName() == "PC_World"
   )
   {
-     NumParticles++;
+
+    getter1.open("NumParticles.txt");
+    getter1>>NumParticles;
+    getter1.close();
+    NumParticles++;
+    saver1.open("NumParticles.txt");
+    saver1<<NumParticles;
+    saver1.close();
+
+
 
   } // adding the number of particles passed through
 
