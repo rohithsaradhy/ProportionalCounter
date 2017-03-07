@@ -59,7 +59,7 @@ void B1EventAction::BeginOfEventAction(const G4Event*)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-ofstream out("/home/devbot/Geant4_Workspace/PropCounter/data/different_length/EnergyDeposited_at_Length1cm.txt");
+ofstream out("/home/devbot/Geant4_Workspace/PropCounter/data/Kr/EnergyDeposited_at_Length=20cm.txt");
 
 void B1EventAction::EndOfEventAction(const G4Event*)
 {

@@ -66,7 +66,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   G4String name;
 
   G4Material* Air = nist->FindOrBuildMaterial("G4_AIR"); // Air
-  G4Material* Xe = nist->FindOrBuildMaterial("G4_Xe"); // Xenon
+  G4Material* Fr = nist->FindOrBuildMaterial("G4_Kr"); // Xenon
   G4Material* CO2= nist->FindOrBuildMaterial("G4_CARBON_DIOXIDE"); // Carbon Dioxide
   G4Material* Ar = nist->FindOrBuildMaterial("G4_Ar"); // Argon
 
@@ -106,7 +106,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 
   G4double innerRadius = 0.*cm;
   G4double outerRadius = 1.*cm;
-  G4double hz = 1*cm;
+G4double hz = 20*cm;
   hz = hz/2; //because it is mirror imaged!
   G4double startAngle = 0.*deg;
   G4double spanningAngle = 360.*deg;
@@ -119,7 +119,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
                  startAngle,
                  spanningAngle);
 
-  G4LogicalVolume* CounterLog = new G4LogicalVolume(CounterTube, Xe, "Proportional  Counter");
+  G4LogicalVolume* CounterLog = new G4LogicalVolume(CounterTube, Fr, "Proportional  Counter");
 
    pos_x =  0.0*cm;
    pos_y =  0.0*cm;
