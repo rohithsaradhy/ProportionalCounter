@@ -37,6 +37,8 @@
 
 using namespace std;
 
+ifstream getter2;
+ofstream saver2;
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 B1EventAction::B1EventAction(B1RunAction* runAction)
@@ -55,17 +57,40 @@ B1EventAction::~B1EventAction()
 void B1EventAction::BeginOfEventAction(const G4Event*)
 {
   fEdep = 0.;
+  saver2.open("Numelectrons.txt");
+  saver2<<0;
+ofstream out("/home/devbot/Geant4_Workspace/PropCounter/data/ArCO/EnergyDeposited_at_Length=20cm.txt");
+
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-ofstream out("/home/devbot/Geant4_Workspace/PropCounter/data/Kr/EnergyDeposited_at_Length=20cm.txt");
+ofstream out("/home/devbot/Geant4_Workspace/PropCounter/data/Xe/EnergyDeposited_at_Length=10cm.txt");
 
 void B1EventAction::EndOfEventAction(const G4Event*)
 {
   // accumulate statistics in run action
   fRunAction->AddEdep(fEdep); // don't consider this function now
   out<<fEdep<<G4endl;
+ int a,hits;
+ getter2.open("Numelectrons.txt");
+ getter2>>a;
+ getter2.close();
+
+ if(a==1){
+   getter2.open("hits.txt");
+   getter2>>hits;
+   getter2.close();
+   hits++;
+   saver2.open("hits.txt");
+   saver2<<hits;
+   saver2.close();
+
+
+ }
+
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

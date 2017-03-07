@@ -57,9 +57,13 @@ B1RunAction::B1RunAction()
   fEdep("Edep", 0.),
   fEdep2("Edep2", 0.)
 {
-  saver.open("NumParticles.txt");
-   saver<<0;
-   saver.close();
+    saver.open("NumParticles.txt");
+    saver<<0;
+    saver.close();
+    saver.open("hits.txt");
+    saver<<0;
+    saver.close();
+
 
   // add new units for dose
   //
@@ -152,9 +156,13 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
      << "--------------------End of Local Run------------------------";
   }
 
-
+  double hits=0;
   getter.open("NumParticles.txt");
   getter>>NumParticles;
+  getter.close();
+  getter.open("hits.txt");
+  getter>>hits;
+  getter.close();
   G4cout
      << G4endl
      << " The run consists of " << nofEvents << " "<< runCondition
@@ -167,13 +175,9 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
      << G4endl
      <<"Number of particles transmitted \t"<<NumParticles<<G4endl;
 
-  outfile <<length<<"\t"<< nofEvents <<"\t"<<NumParticles<<"\t"<<NumParticles/nofEvents<<endl; //saving the data to a file
+  outfile <<length<<"\t"<< nofEvents <<"\t"<<NumParticles<<"\t"<<hits<<endl; //saving the data to a file
   outfile.close();
-  getter.close();
-
-
-
-
+  cout<<"Note here!!!!! \t"<<length<<"\t"<< nofEvents <<"\t"<<NumParticles<<"\t"<<hits<<endl;
 
 }
 

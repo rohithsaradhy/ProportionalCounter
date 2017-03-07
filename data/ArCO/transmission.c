@@ -41,8 +41,9 @@ void transmission()
    gr->SetMarkerColor(4);
    gr->SetMarkerStyle(21);
    gr->SetTitle("Transmission graph");
-   gr->GetXaxis()->SetTitle("Transmission");
-   gr->GetYaxis()->SetTitle("Detector Length");
+   gr->GetYaxis()->SetTitle("Transmission");
+   gr->GetXaxis()->SetTitle("Detector Length (cm)");
    gr->Draw("ALP");
+   gPad->Print("Transmission.png");
 
 }

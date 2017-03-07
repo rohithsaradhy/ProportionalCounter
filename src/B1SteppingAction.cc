@@ -97,6 +97,20 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
   } // adding the number of particles passed through
 
 
+
+  G4Track* aTrack = step->GetTrack();
+   const G4ParticleDefinition* part = aTrack->GetDefinition();
+
+  //  && step->GetPostStepPoint()->GetTouchableHandle()->GetVolume()->GetName() == "target"
+
+   if(part->GetPDGEncoding() == 11)
+   {
+     saver1.open("Numelectrons.txt");
+     saver1<<1;
+     saver1.close();
+   } //getting electrons ejected!
+
+
   // check if we are in scoring volume
   if (volume != fScoringVolume) return;
 
