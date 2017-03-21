@@ -58,17 +58,29 @@ B1DetectorConstruction::~B1DetectorConstruction()
 
 G4VPhysicalVolume* B1DetectorConstruction::Construct()
 {
-  // Get nist material manager
   G4NistManager* nist = G4NistManager::Instance();
 
   // Materials that are required...
   G4int ncomponents;
   G4String name;
 
-  G4Material* Air = nist->FindOrBuildMaterial("G4_Galactic"); // Air
-  G4Material* Fr = nist->FindOrBuildMaterial("G4_Xe"); // Xenon
+  G4Material* Air = nist->FindOrBuildMaterial("G4_Galactic"); // Air G4_Galactic G4_AIR
+  G4Material* Xe = nist->FindOrBuildMaterial("G4_Kr"); // Xenon G4_Xe; Krypton G4_Kr
   G4Material* CO2= nist->FindOrBuildMaterial("G4_CARBON_DIOXIDE"); // Carbon Dioxide
   G4Material* Ar = nist->FindOrBuildMaterial("G4_Ar"); // Argon
+  G4Material* Cu  = nist->FindOrBuildMaterial("G4_Cu");
+  G4Material* Kapton = 	nist->FindOrBuildMaterial("G4_KAPTON");
+
+
+  G4Element* Cr = nist->FindOrBuildElement("Cr");
+	G4Element* Mn = nist->FindOrBuildElement("Mn");
+	G4Element* Fe = nist->FindOrBuildElement("Fe");
+	G4Element* Ni = nist->FindOrBuildElement("Ni");
+  G4Element* Si = nist->FindOrBuildElement("Si");
+  G4Element* C  = nist->FindOrBuildElement("C");
+
+
+
 
   G4double co2_percent, density,fractionmass;
   // Mixing CO2 with Ar
@@ -78,14 +90,22 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   Gas->AddMaterial(CO2, fractionmass=co2_percent*perCent);
   Gas->AddMaterial(Ar, fractionmass=(100-co2_percent)*perCent);
 
+  //Making stainless steel...
+  G4Material* StainlessSteel = new G4Material("StainlessSteel", density= 8.06*g/cm3, ncomponents=6);
+	StainlessSteel->AddElement(C, fractionmass=0.001);
+	StainlessSteel->AddElement(Si, fractionmass=0.007);
+	StainlessSteel->AddElement(Cr, fractionmass=0.18);
+	StainlessSteel->AddElement(Mn, fractionmass=0.01);
+	StainlessSteel->AddElement(Fe, fractionmass=0.712);
+	StainlessSteel->AddElement(Ni, fractionmass=0.09);
 
 
   //Making the geometry now!
 
   //Making world volume
-  G4double world_x = 100*cm;
-  G4double world_y = 100*cm;
-  G4double world_z = 100*cm;
+  G4double world_x = 50*cm;
+  G4double world_y = 50*cm;
+  G4double world_z = 50*cm;
   G4Box* worldBox = new G4Box("World", world_x,world_y,world_z);
   G4LogicalVolume* worldLog = new G4LogicalVolume(worldBox, Air,"World");
   G4double pos_x = 0.0*cm;
@@ -94,20 +114,11 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   G4VPhysicalVolume* World = new G4PVPlacement(0,G4ThreeVector(pos_x, pos_y,pos_z),worldLog,"PC_World",0,false,0);
 
 
-// Making target volume
-  G4Box* targetVol = new  G4Box("targetVol", 10*cm,10*cm,1*cm);
-  G4LogicalVolume* tagetLog = new G4LogicalVolume(targetVol, Air,"targetLog");
-  pos_x =  0.0*cm;
-  pos_y =  0.0*cm;
-  pos_z =  -6.0*cm;
-  G4VPhysicalVolume* targetPhy = new G4PVPlacement(0,G4ThreeVector(pos_x, pos_y,pos_z),tagetLog,"target",worldLog,false,0);
-
-
-
-  G4double innerRadius = 0.*cm;
+// Setting up the detector .
+  G4double innerRadius = 0.05*cm;
   G4double outerRadius = 1.*cm;
-G4double hz = 10*cm;
-  hz = hz/2; //because it is mirror imaged!
+G4double hz = 20*cm;
+  hz=hz/2; // Because the image is mirrored so divided by two.
   G4double startAngle = 0.*deg;
   G4double spanningAngle = 360.*deg;
 
@@ -119,7 +130,7 @@ G4double hz = 10*cm;
                  startAngle,
                  spanningAngle);
 
-  G4LogicalVolume* CounterLog = new G4LogicalVolume(CounterTube, Gas, "Proportional  Counter");
+  G4LogicalVolume* CounterLog = new G4LogicalVolume(CounterTube, Xe, "ProportionalCounter");
 
    pos_x =  0.0*cm;
    pos_y =  0.0*cm;
@@ -136,6 +147,107 @@ G4double hz = 10*cm;
                         0);
 
 
+//Creating the cathode cylinder...
+
+innerRadius = 1.*cm;
+outerRadius = 1.1*cm;
+G4Tubs* SSTube
+  = new G4Tubs("SS_Shell",
+               innerRadius,
+               outerRadius,
+               hz,
+               startAngle,
+               spanningAngle);
+
+G4LogicalVolume* SSTubeLog = new G4LogicalVolume(SSTube, StainlessSteel, "SS_Shell Log");
+
+
+G4VPhysicalVolume* SSTubePhys
+  = new G4PVPlacement(0,                       // no rotation
+                      G4ThreeVector(pos_x, pos_y, pos_z),
+                                               // translation position
+                      SSTubeLog,              // its logical volume
+                      "SS Shell Physical",               // its name
+                      worldLog,                // its mother (logical) volume
+                      false,                   // no boolean operations
+                      0);
+
+
+// Anode wire geometry
+
+innerRadius = 0.*cm;
+outerRadius = .05*cm;
+G4Tubs* Anode
+  = new G4Tubs("Anode",
+               innerRadius,
+               outerRadius,
+               hz,
+               startAngle,
+               spanningAngle);
+
+G4LogicalVolume* AnodeLog = new G4LogicalVolume(Anode, Cu, "Anode Log");
+
+
+G4VPhysicalVolume* AnodePhys
+  = new G4PVPlacement(0,                       // no rotation
+                      G4ThreeVector(pos_x, pos_y, pos_z),
+                                               // translation position
+                      AnodeLog,              // its logical volume
+                      "Anode Physical",               // its name
+                      worldLog,                // its mother (logical) volume
+                      false,                   // no boolean operations
+                      0);
+
+
+//Kapton Material!!!
+
+innerRadius = 0.*cm;
+outerRadius = 1*cm;
+G4double thickness = 0.01*cm;
+G4Tubs* Kapton1
+  = new G4Tubs("Kapton1",
+               innerRadius,
+               outerRadius,
+               thickness,
+               startAngle,
+               spanningAngle);
+
+G4LogicalVolume* Kapton1Log = new G4LogicalVolume(Kapton1, Kapton, "Kapton1Log");
+
+pos_z = -(hz+thickness);
+G4VPhysicalVolume* Kapton1Phys
+  = new G4PVPlacement(0,                       // no rotation
+                      G4ThreeVector(pos_x, pos_y, pos_z),
+                                               // translation position
+                      Kapton1Log,              // its logical volume
+                      "Kapton1Physical",               // its name
+                      worldLog,                // its mother (logical) volume
+                      false,                   // no boolean operations
+                      0);
+// Second Kapton
+innerRadius = 0.*cm;
+outerRadius = 1*cm;
+thickness = 0.01*cm;
+G4Tubs* Kapton2
+  = new G4Tubs("Kapton2",
+               innerRadius,
+               outerRadius,
+               thickness,
+               startAngle,
+               spanningAngle);
+
+G4LogicalVolume* Kapton2Log = new G4LogicalVolume(Kapton2, Kapton, "Kapton2Log");
+
+pos_z = +(hz+thickness);
+G4VPhysicalVolume* Kapton2Phys
+  = new G4PVPlacement(0,                       // no rotation
+                      G4ThreeVector(pos_x, pos_y, pos_z),
+                                               // translation position
+                      Kapton2Log,              // its logical volume
+                      "Kapton2Physical",               // its name
+                      worldLog,                // its mother (logical) volume
+                      false,                   // no boolean operations
+                      0);
 
 
 
@@ -144,7 +256,8 @@ G4double hz = 10*cm;
 
 
 
-  fScoringVolume = CounterLog;
+
+  fScoringVolume = CounterLog; // sending the logical volume.
 
   //
   //always return the physical World Volume

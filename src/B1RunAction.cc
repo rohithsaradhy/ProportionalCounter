@@ -45,7 +45,7 @@
 using namespace std;
 
 ofstream saver;
-ofstream outfile("test.txt", std::ios_base::app);
+ofstream outfile;
 ifstream getter;
 int NumParticles;
 double length = 20;
@@ -175,6 +175,7 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
      << G4endl
      <<"Number of particles transmitted \t"<<NumParticles<<G4endl;
 
+  outfile.open("test.txt", std::ios_base::app);
   outfile <<length<<"\t"<< nofEvents <<"\t"<<NumParticles<<"\t"<<hits<<endl; //saving the data to a file
   outfile.close();
   cout<<"Note here!!!!! \t"<<length<<"\t"<< nofEvents <<"\t"<<NumParticles<<"\t"<<hits<<endl;

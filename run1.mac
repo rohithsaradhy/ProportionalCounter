@@ -18,7 +18,7 @@
 /gun/particle gamma
 /gun/energy 17.5 keV
 #
-/run/beamOn 100
+/run/beamOn 100000
 #
 # proton 210 MeV to the direction (0.,0.,1.)
 #

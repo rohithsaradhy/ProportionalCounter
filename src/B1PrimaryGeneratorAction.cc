@@ -101,10 +101,14 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   //    "MyCode0002",JustWarning,msg);
   // }
 
-  // G4double size = 0.8;
-  G4double x0 = 0;//size * envSizeXY * (G4UniformRand()-0.5);
-  G4double y0 = 0;//size * envSizeXY * (G4UniformRand()-0.5);
-  G4double z0 = 6; //-0.5 * envSizeZ;
+  G4double BeamWidthX = 5*mm;
+  G4double BeamWidthY = 6*mm;
+  G4double BeamXpos = 0.5*cm;
+  G4double BeamYpos =0*cm;
+
+  G4double x0 = BeamWidthX*(G4UniformRand()-0.5)+BeamXpos;//size * envSizeXY * (G4UniformRand()-0.5);
+  G4double y0 = BeamWidthY*(G4UniformRand()-0.5)+BeamYpos;//size * envSizeXY * (G4UniformRand()-0.5);
+  G4double z0 = 21*cm; //-0.5 * envSizeZ; //Z position
 
   fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
 

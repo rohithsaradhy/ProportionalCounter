@@ -59,14 +59,12 @@ void B1EventAction::BeginOfEventAction(const G4Event*)
   fEdep = 0.;
   saver2.open("Numelectrons.txt");
   saver2<<0;
-ofstream out("/home/devbot/Geant4_Workspace/PropCounter/data/ArCO/EnergyDeposited_at_Length=20cm.txt");
-
-
+  saver2.close();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-ofstream out("/home/devbot/Geant4_Workspace/PropCounter/data/Xe/EnergyDeposited_at_Length=10cm.txt");
+ofstream out("/home/devbot/Geant4_Workspace/PropCounter/data/Kr/EnergyDeposited_at_Length=20cm.txt");
 
 void B1EventAction::EndOfEventAction(const G4Event*)
 {

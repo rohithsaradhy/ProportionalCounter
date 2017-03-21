@@ -80,7 +80,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
 
     // G4Track* aTrack = step->GetTrack();
 
-  if(step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName() == "target" && step->GetPostStepPoint()->GetTouchableHandle()->GetVolume()->GetName() == "PC_World"
+  if(step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName() == "Kapton1Physical" && step->GetPostStepPoint()->GetTouchableHandle()->GetVolume()->GetName() == "PC_World"
   )
   {
 
@@ -88,12 +88,10 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
     getter1>>NumParticles;
     getter1.close();
     NumParticles++;
+    G4cout<<"Particle Escaped, Total jailbreaks are now \t"<<NumParticles<<endl;
     saver1.open("NumParticles.txt");
     saver1<<NumParticles;
     saver1.close();
-
-
-
   } // adding the number of particles passed through
 
 
@@ -101,13 +99,22 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
   G4Track* aTrack = step->GetTrack();
    const G4ParticleDefinition* part = aTrack->GetDefinition();
 
-  //  && step->GetPostStepPoint()->GetTouchableHandle()->GetVolume()->GetName() == "target"
+  //  if(aTrack->GetCurrentStepNumber()==1)
+  //  {
+   //
+  //    cout<<"Particle that is coming is \t"<<part->GetPDGEncoding()<<endl;
+  //  }
 
-   if(part->GetPDGEncoding() == 11)
+   if(part->GetPDGEncoding() == 11&& step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName() == "Counter")
    {
-     saver1.open("Numelectrons.txt");
-     saver1<<1;
-     saver1.close();
+     if(aTrack->GetCurrentStepNumber()==1)
+     {
+      //  cout<<"Electron has come out \t"<<part->GetPDGEncoding()<<endl;
+       saver1.open("Numelectrons.txt");
+       saver1<<1;
+       saver1.close();
+     }
+
    } //getting electrons ejected!
 
 

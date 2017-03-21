@@ -7,7 +7,6 @@ event_file="/home/devbot/Geant4_Workspace/PropCounter/src/B1EventAction.cc" # of
 constructor_file="/home/devbot/Geant4_Workspace/PropCounter/src/B1DetectorConstruction.cc" # changing the length of the detector
 runAction_file="/home/devbot/Geant4_Workspace/PropCounter/src/B1RunAction.cc" #adding the length to the file
 
-
 for len in "${length[@]}"
 do
 
@@ -23,14 +22,14 @@ do
 #sed -i '75s/.*/'$stable", 2196.98*ns,             NULL,"'/' $mu_src
 #gedit $mu_src
 #editing the event file
-mkdir /home/devbot/Geant4_Workspace/PropCounter/data/ArCO/
+mkdir /home/devbot/Geant4_Workspace/PropCounter/data/Kr/
 
-file_name="/home/devbot/Geant4_Workspace/PropCounter/data/ArCO/EnergyDeposited_at_Length="$len"cm.txt"
+file_name="/home/devbot/Geant4_Workspace/PropCounter/data/Kr/EnergyDeposited_at_Length="$len"cm.txt"
 #echo $file_name
 
 touch "$file_name"
-sed -i '62s@.*@'"ofstream out(\""$file_name"\");"'@' $event_file
-sed -i '109s@.*@'"G4double hz = $len*cm;"'@' $constructor_file
+sed -i '67s@.*@'"ofstream out(\""$file_name"\");"'@' $event_file
+sed -i '120s@.*@'"G4double hz = $len*cm;"'@' $constructor_file
 sed -i '51s@.*@'"double length = $len;"'@' $runAction_file
 #gedit $event_file
 #editing run1.mac file
@@ -44,7 +43,7 @@ sed -i '51s@.*@'"double length = $len;"'@' $runAction_file
 #make install
 # read -p "Press [Enter] key to CONTINUE..."
 cd  /home/devbot/Geant4_Workspace/PropCounter/
-make
+make -j48
 exampleB1 run1.mac
 #read -p "Press [Enter] key to start Continue..."
 
@@ -53,4 +52,4 @@ exampleB1 run1.mac
 
 
 done
-mv /home/devbot/Geant4_Workspace/PropCounter/test.txt /home/devbot/Geant4_Workspace/PropCounter/data/ArCO/NumParticlesTransmitted
+mv /home/devbot/Geant4_Workspace/PropCounter/test.txt /home/devbot/Geant4_Workspace/PropCounter/data/Kr/NumParticlesTransmitted
