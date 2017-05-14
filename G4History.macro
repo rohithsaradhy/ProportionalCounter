@@ -128,6 +128,7 @@
 /vis/viewer/set/autoRefresh true
 /vis/viewer/refresh
 /vis/verbose warnings
+<<<<<<< HEAD
 /control/execute run1.mac
 /run/initialize
 /control/verbose 0
@@ -139,3 +140,5 @@
 /run/beamOn 100
 /vis/scene/notifyHandlers scene-0
 /vis/scene/notifyHandlers scene-1
+=======
+>>>>>>> cf88a475d0e86c99491355b8fd8c0ae2cb0bb105
