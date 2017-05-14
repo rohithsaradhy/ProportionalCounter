@@ -48,7 +48,7 @@ ofstream saver;
 ofstream outfile;
 ifstream getter;
 int NumParticles;
-double length = 20;
+double length = 10;
 
 
 

@@ -22,9 +22,9 @@ do
 #sed -i '75s/.*/'$stable", 2196.98*ns,             NULL,"'/' $mu_src
 #gedit $mu_src
 #editing the event file
-mkdir /home/devbot/Geant4_Workspace/PropCounter/data/Kr/
+mkdir /home/devbot/Geant4_Workspace/PropCounter/data/Ar/
 
-file_name="/home/devbot/Geant4_Workspace/PropCounter/data/Kr/EnergyDeposited_at_Length="$len"cm.txt"
+file_name="/home/devbot/Geant4_Workspace/PropCounter/data/Ar/EnergyDeposited_at_Length="$len"cm.txt"
 #echo $file_name
 
 touch "$file_name"
@@ -52,4 +52,4 @@ exampleB1 run1.mac
 
 
 done
-mv /home/devbot/Geant4_Workspace/PropCounter/test.txt /home/devbot/Geant4_Workspace/PropCounter/data/Kr/NumParticlesTransmitted
+mv /home/devbot/Geant4_Workspace/PropCounter/test.txt /home/devbot/Geant4_Workspace/PropCounter/data/Ar/NumParticlesTransmitted

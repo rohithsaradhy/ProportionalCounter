@@ -16,7 +16,7 @@
 #
 # gamma 17.5 keV
 /gun/particle gamma
-/gun/energy 17.5 keV
+/gun/energy 40 keV
 #
 /run/beamOn 100000
 #
